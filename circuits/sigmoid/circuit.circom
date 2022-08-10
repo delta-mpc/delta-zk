@@ -9,9 +9,9 @@ template Sigmoid0_1() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatAdd();
+    component fa = FloatSum();
 
-    fa.sign <== 0;
+    fa.op <== 0;
 
     fm.l[0] <== 25;
     fm.l[1] <== 2;
@@ -32,9 +32,9 @@ template Sigmoid1_2() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatAdd();
+    component fa = FloatSum();
 
-    fa.sign <== 0;
+    fa.op <== 0;
 
     fm.l[0] <== 125;
     fm.l[1] <== 3;
@@ -55,9 +55,9 @@ template Sigmoid2_5() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatAdd();
+    component fa = FloatSum();
 
-    fa.sign <== 0;
+    fa.op <== 0;
 
     fm.l[0] <== 3125;
     fm.l[1] <== 5;
@@ -98,7 +98,8 @@ template Switcher2() {
     outR[1] <== sw[1].outR;
 }
 
-template Sigmoid() {
+template Sigmoid(deci) {
+    assert(deci >= 3);
     signal input x;
     signal input sign;
     signal output s[2];
@@ -114,17 +115,18 @@ template Sigmoid() {
     component sg1 = Sigmoid0_1();
     component sg2 = Sigmoid1_2();
     component sg3 = Sigmoid2_5();
-    component fa = FloatAdd();
+    component fs = FloatSum();
 
-    fa.sign <== 1;
+    fs.op <== 1;
 
     // 判断x的区间
+    var fac = 10**(deci-3);
     gt1.in[0] <== x;
-    gt1.in[1] <== 10000;
+    gt1.in[1] <== 1000*fac;
     gt2.in[0] <== x;
-    gt2.in[1] <== 23750;
+    gt2.in[1] <== 2375*fac;
     gt3.in[0] <== x;
-    gt3.in[1] <== 50000;
+    gt3.in[1] <== 5000*fac;
 
     // 计算不同区间内的sigmoid
     sg1.x[0] <== x;
@@ -154,15 +156,15 @@ template Sigmoid() {
     sw3.R[1] <== 0;
 
     // 处理负数
-    fa.l[0] <== 1;
-    fa.l[1] <== 0;
-    fa.r[0] <== sw3.outL[0];
-    fa.r[1] <== sw3.outL[1];
+    fs.l[0] <== 1;
+    fs.l[1] <== 0;
+    fs.r[0] <== sw3.outL[0];
+    fs.r[1] <== sw3.outL[1];
 
     isz.in <== sign;
     sw4.sel <== isz.out;
-    sw4.L[0] <== fa.s[0];
-    sw4.L[1] <== fa.s[1];
+    sw4.L[0] <== fs.s[0];
+    sw4.L[1] <== fs.s[1];
     sw4.R[0] <== sw3.outL[0];
     sw4.R[1] <== sw3.outL[1];
 
@@ -170,4 +172,4 @@ template Sigmoid() {
     s[1] <== sw4.outL[1];
 }
 
-component main = Sigmoid();
+component main = Sigmoid(4);

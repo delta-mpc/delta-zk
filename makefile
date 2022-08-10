@@ -31,6 +31,7 @@ pkv:zkev pkf
 	snarkjs pkv verification_key.json public.json proof.json
 
 js:
+	cp proof.js $(WORKDIR) && \
 	cd $(WORKDIR) && \
 	node proof.js
 
