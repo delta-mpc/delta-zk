@@ -1,5 +1,5 @@
 BASE=./circuits
-DIR ?= sigmoid
+DIR ?= scalar
 WORKDIR=$(BASE)/$(DIR)
 
 # compile

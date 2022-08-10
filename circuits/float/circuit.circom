@@ -30,6 +30,27 @@ template FloatMulti() {
     p[1] <== l[1] + r[1];
 }
 
+template FloatSumSimple() {
+    signal input l[2];
+    signal input r[2];
+    signal input op;
+    signal output s[2];
+
+    component sw = Switcher();
+    component isz = IsZero();
+
+    l[1] === r[1];
+
+    // 处理减法
+    isz.in <== op;
+    sw.sel <== isz.out;
+    sw.L <== l[0] - r[0];
+    sw.R <== l[0] + r[0];
+
+    s[0] <== sw.outL;
+    s[1] <== l[1];
+}
+
 template FloatSum() {
     signal input l[2];
     signal input r[2];
@@ -76,7 +97,9 @@ template FloatSumSign() {
     signal input l[2];
     signal input r[2];
     signal input op;
-    signal output s[3];
+    signal output s[2];
+    signal output sign;
+
     component fs = FloatSum();
     component si = Sign();
 
@@ -90,7 +113,7 @@ template FloatSumSign() {
 
     s[0] <== si.out;
     s[1] <== fs.s[1];
-    s[2] <== si.sign;
+    sign <== si.sign;
 }
 
 // component main = FloatSumSign();
