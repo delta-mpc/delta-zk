@@ -11,15 +11,15 @@ template Sigmoid0_1() {
     component fm = FloatMulti();
     component fa = FloatAdd();
 
-    fm.l[0] <== 25;
-    fm.l[1] <== 2;
+    fm.l[0] <== 25000;
+    fm.l[1] <== 5;
     fm.r[0] <== x[0];
     fm.r[1] <== x[1];
 
     fa.l[0] <== fm.p[0];
     fa.l[1] <== fm.p[1];
-    fa.r[0] <== 5;
-    fa.r[1] <== 1;
+    fa.r[0] <== 50000;
+    fa.r[1] <== 5;
 
     s[0] <== fa.s[0];
     s[1] <== fa.s[1];
@@ -32,15 +32,15 @@ template Sigmoid1_2() {
     component fm = FloatMulti();
     component fa = FloatAdd();
 
-    fm.l[0] <== 125;
-    fm.l[1] <== 3;
+    fm.l[0] <== 12500;
+    fm.l[1] <== 5;
     fm.r[0] <== x[0];
     fm.r[1] <== x[1];
 
     fa.l[0] <== fm.p[0];
     fa.l[1] <== fm.p[1];
-    fa.r[0] <== 625;
-    fa.r[1] <== 3;
+    fa.r[0] <== 62500;
+    fa.r[1] <== 5;
 
     s[0] <== fa.s[0];
     s[1] <== fa.s[1];
@@ -162,6 +162,7 @@ template Sigmoid(deci) {
 
     s[0] <== sw4.outL[0];
     s[1] <== sw4.outL[1];
+    s[1] === 5+deci;
 }
 
 component main = Sigmoid(4);
