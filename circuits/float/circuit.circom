@@ -4,6 +4,7 @@ include "../../node_modules/circomlib/circuits/comparators.circom";
 include "../../node_modules/circomlib/circuits/switcher.circom";
 include "../sign/circuit.circom";
 
+// 浮点数乘法，输入无符号，输出无符号
 template FloatMulti() {
     signal input l[2];
     signal input r[2];
@@ -13,6 +14,7 @@ template FloatMulti() {
     p[1] <== l[1] + r[1];
 }
 
+// 浮点数乘法，输入有符号，输出无符号
 template FloatMultiSign() {
     signal input l[3];
     signal input r[3];
@@ -36,7 +38,7 @@ template FloatMultiSign() {
     p[1] <== fm.p[1];
 }
 
-// 无符号数加法
+// 浮点数加法，输入无符号，输出无符号
 template FloatAdd() {
     signal input l[2];
     signal input r[2];
@@ -70,6 +72,7 @@ template FloatAdd() {
     s[1] <== swd.outR;
 }
 
+// 浮点数加法，输入有符号，输出无符号
 template FloatAddSign() {
     signal input l[3];
     signal input r[3];
@@ -93,6 +96,7 @@ template FloatAddSign() {
     s[1] <== fa.s[1];
 }
 
+// 浮点数加法，默认精度相同，输入无符号，输出无符号
 template FloatAddSimple() {
     signal input l[2];
     signal input r[2];
@@ -104,6 +108,7 @@ template FloatAddSimple() {
     s[1] <== l[1];
 }
 
+// 浮点数加法，默认精度相同，输入有符号，输出无符号
 template FloatAddSignSimple() {
     signal input l[3];
     signal input r[3];
