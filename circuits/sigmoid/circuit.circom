@@ -9,9 +9,7 @@ template Sigmoid0_1() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatSum();
-
-    fa.op <== 0;
+    component fa = FloatAdd();
 
     fm.l[0] <== 25;
     fm.l[1] <== 2;
@@ -32,9 +30,7 @@ template Sigmoid1_2() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatSum();
-
-    fa.op <== 0;
+    component fa = FloatAdd();
 
     fm.l[0] <== 125;
     fm.l[1] <== 3;
@@ -55,9 +51,7 @@ template Sigmoid2_5() {
     signal output s[2];
 
     component fm = FloatMulti();
-    component fa = FloatSum();
-
-    fa.op <== 0;
+    component fa = FloatAdd();
 
     fm.l[0] <== 3125;
     fm.l[1] <== 5;
@@ -115,9 +109,7 @@ template Sigmoid(deci) {
     component sg1 = Sigmoid0_1();
     component sg2 = Sigmoid1_2();
     component sg3 = Sigmoid2_5();
-    component fs = FloatSum();
-
-    fs.op <== 1;
+    component fs = FloatAdd();
 
     // 判断x的区间
     var fac = 10**(deci-3);
@@ -158,7 +150,7 @@ template Sigmoid(deci) {
     // 处理负数
     fs.l[0] <== 1;
     fs.l[1] <== 0;
-    fs.r[0] <== sw3.outL[0];
+    fs.r[0] <== -sw3.outL[0];
     fs.r[1] <== sw3.outL[1];
 
     isz.in <== sign;

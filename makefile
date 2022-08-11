@@ -1,5 +1,5 @@
 BASE=./circuits
-DIR ?= scalar
+DIR ?= vector
 WORKDIR=$(BASE)/$(DIR)
 
 # compile

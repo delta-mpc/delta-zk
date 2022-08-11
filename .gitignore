@@ -6,6 +6,7 @@
 *.iml
 out
 gen
+.vscode
 
 *.ptau
 *.wtns

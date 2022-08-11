@@ -7,8 +7,12 @@ include "../../node_modules/circomlib/circuits/switcher.circom";
 template Test() {
     signal input in[2];
     signal output out;
+    signal a;
+    signal b;
 
-    out <== in[0] - in[1];
+    a <== -in[0];
+    b <== a * in[1];
+    out <== -b;
 }
 
 component main = Test();

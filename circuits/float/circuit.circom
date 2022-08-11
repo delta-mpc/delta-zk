@@ -2,24 +2,7 @@ pragma circom 2.0.0;
 
 include "../../node_modules/circomlib/circuits/comparators.circom";
 include "../../node_modules/circomlib/circuits/switcher.circom";
-
-template Sign() {
-    signal input in;
-    signal output out;
-    signal output sign;
-    component lt = LessThan(252);
-    component sw = Switcher();
-
-    lt.in[0] <== in;
-    lt.in[1] <== 0;
-
-    sw.sel <== lt.out;
-    sw.L <== in;
-    sw.R <== -in;
-
-    out <== sw.outL;
-    sign <== lt.out;
-}
+include "../sign/circuit.circom";
 
 template FloatMulti() {
     signal input l[2];
@@ -30,31 +13,33 @@ template FloatMulti() {
     p[1] <== l[1] + r[1];
 }
 
-template FloatSumSimple() {
-    signal input l[2];
-    signal input r[2];
-    signal input op;
-    signal output s[2];
+template FloatMultiSign() {
+    signal input l[3];
+    signal input r[3];
+    signal output p[2];
 
-    component sw = Switcher();
-    component isz = IsZero();
+    component us0 = UnSign();
+    component us1 = UnSign();
+    component fm = FloatMulti();
 
-    l[1] === r[1];
+    us0.in <== l[0];
+    us0.sign <== l[2];
+    us1.in <== r[0];
+    us1.sign <== r[2];
 
-    // 处理减法
-    isz.in <== op;
-    sw.sel <== isz.out;
-    sw.L <== l[0] - r[0];
-    sw.R <== l[0] + r[0];
+    fm.l[0] <== us0.out;
+    fm.l[1] <== l[1];
+    fm.r[0] <== us1.out;
+    fm.r[1] <== r[1];
 
-    s[0] <== sw.outL;
-    s[1] <== l[1];
+    p[0] <== fm.p[0];
+    p[1] <== fm.p[1];
 }
 
-template FloatSum() {
+// 无符号数加法
+template FloatAdd() {
     signal input l[2];
     signal input r[2];
-    signal input op;
     signal output s[2];
     signal left;
     signal right;
@@ -62,8 +47,6 @@ template FloatSum() {
     component gtd = GreaterThan(5);
     component swd = Switcher();
     component swf = Switcher();
-    component sw = Switcher();
-    component isz = IsZero();
 
     // 计算精度差
     gtd.in[0] <== l[1];
@@ -83,37 +66,65 @@ template FloatSum() {
     left <== swf.outL * l[0];
     right <== swf.outR * r[0];
 
-    // 处理减法
-    isz.in <== op;
-    sw.sel <== isz.out;
-    sw.L <== left - right;
-    sw.R <== left + right;
-
-    s[0] <== sw.outL;
+    s[0] <== left + right;
     s[1] <== swd.outR;
 }
 
-template FloatSumSign() {
-    signal input l[2];
-    signal input r[2];
-    signal input op;
+template FloatAddSign() {
+    signal input l[3];
+    signal input r[3];
     signal output s[2];
-    signal output sign;
 
-    component fs = FloatSum();
-    component si = Sign();
+    component usl = UnSign();
+    component usr = UnSign();
+    component fa = FloatAdd();
 
-    fs.l[0] <== l[0];
-    fs.l[1] <== l[1];
-    fs.r[0] <== r[0];
-    fs.r[1] <== r[1];
-    fs.op <== op;
+    usl.in <== l[0];
+    usl.sign <== l[2];
+    usr.in <== r[0];
+    usr.sign <== r[2];
 
-    si.in <== fs.s[0];
+    fa.l[0] <== usl.out;
+    fa.l[1] <== l[1];
+    fa.r[0] <== usr.out;
+    fa.r[1] <== r[1];
 
-    s[0] <== si.out;
-    s[1] <== fs.s[1];
-    sign <== si.sign;
+    s[0] <== fa.s[0];
+    s[1] <== fa.s[1];
 }
 
-// component main = FloatSumSign();
+template FloatAddSimple() {
+    signal input l[2];
+    signal input r[2];
+    signal output s[2];
+
+    l[1] === r[1];
+
+    s[0] <== l[0] + r[0];
+    s[1] <== l[1];
+}
+
+template FloatAddSignSimple() {
+    signal input l[3];
+    signal input r[3];
+    signal output s[2];
+
+    component usl = UnSign();
+    component usr = UnSign();
+    component fa = FloatAddSimple();
+
+    usl.in <== l[0];
+    usl.sign <== l[2];
+    usr.in <== r[0];
+    usr.sign <== r[2];
+
+    fa.l[0] <== usl.out;
+    fa.l[1] <== l[1];
+    fa.r[0] <== usr.out;
+    fa.r[1] <== r[1];
+
+    s[0] <== fa.s[0];
+    s[1] <== fa.s[1];
+}
+
+// component main = FloatAdd();
