@@ -3,8 +3,9 @@ pragma circom 2.0.0;
 include "../../node_modules/circomlib/circuits/comparators.circom";
 include "../../node_modules/circomlib/circuits/switcher.circom";
 include "../float/circuit.circom";
+include "../sign/circuit.circom";
 
-template Sigmoid0_1(deci) {
+template Sigmoid0_1(d) {
     signal input x;
     signal output s[2];
 
@@ -14,18 +15,18 @@ template Sigmoid0_1(deci) {
     fm.l[0] <== 25000;
     fm.l[1] <== 5;
     fm.r[0] <== x;
-    fm.r[1] <== deci;
+    fm.r[1] <== d;
 
     fa.l[0] <== fm.p[0];
     fa.l[1] <== fm.p[1];
-    fa.r[0] <== 5*(10**(deci+4));
-    fa.r[1] <== deci+5;
+    fa.r[0] <== 5*(10**(d+4));
+    fa.r[1] <== d+5;
 
     s[0] <== fa.s[0];
     s[1] <== fa.s[1];
 }
 
-template Sigmoid1_2(deci) {
+template Sigmoid1_2(d) {
     signal input x;
     signal output s[2];
 
@@ -35,18 +36,18 @@ template Sigmoid1_2(deci) {
     fm.l[0] <== 12500;
     fm.l[1] <== 5;
     fm.r[0] <== x;
-    fm.r[1] <== deci;
+    fm.r[1] <== d;
 
     fa.l[0] <== fm.p[0];
     fa.l[1] <== fm.p[1];
-    fa.r[0] <== 625*(10**(deci+2));
-    fa.r[1] <== deci+5;
+    fa.r[0] <== 625*(10**(d+2));
+    fa.r[1] <== d+5;
 
     s[0] <== fa.s[0];
     s[1] <== fa.s[1];
 }
 
-template Sigmoid2_5(deci) {
+template Sigmoid2_5(d) {
     signal input x;
     signal output s[2];
 
@@ -56,12 +57,12 @@ template Sigmoid2_5(deci) {
     fm.l[0] <== 3125;
     fm.l[1] <== 5;
     fm.r[0] <== x;
-    fm.r[1] <== deci;
+    fm.r[1] <== d;
 
     fa.l[0] <== fm.p[0];
     fa.l[1] <== fm.p[1];
-    fa.r[0] <== 84375 * (10**deci);
-    fa.r[1] <== deci+5;
+    fa.r[0] <== 84375 * (10**d);
+    fa.r[1] <== d+5;
 
     s[0] <== fa.s[0];
     s[1] <== fa.s[1];
@@ -92,8 +93,8 @@ template Switcher2() {
     outR[1] <== sw[1].outR;
 }
 
-template Sigmoid(deci) {
-    assert(deci >= 3);
+template Sigmoid(d) {
+    assert(d >= 3);
     signal input x;
     signal input sign;
     signal output s[2];
@@ -106,13 +107,13 @@ template Sigmoid(deci) {
     component sw2 = Switcher2();
     component sw3 = Switcher2();
     component sw4 = Switcher2();
-    component sg1 = Sigmoid0_1(deci);
-    component sg2 = Sigmoid1_2(deci);
-    component sg3 = Sigmoid2_5(deci);
+    component sg1 = Sigmoid0_1(d);
+    component sg2 = Sigmoid1_2(d);
+    component sg3 = Sigmoid2_5(d);
     component fs = FloatAddSimple();
 
     // 判断x的区间
-    var fac = 10**(deci-3);
+    var fac = 10**(d-3);
     gt1.in[0] <== x;
     gt1.in[1] <== 1000*fac;
     gt2.in[0] <== x;
@@ -159,7 +160,28 @@ template Sigmoid(deci) {
 
     s[0] <== sw4.outL[0];
     s[1] <== sw4.outL[1];
-    s[1] === deci + 5;
+    s[1] === d + 5;
 }
 
-component main = Sigmoid(4);
+// 计算向量的sigmoid，输入无符号，输出无符号
+template SigmoidVector(N, d) {
+    signal input X[N];
+    signal output S[N][2];
+
+    component sg[N];
+    component sn[N];
+
+    for (var i = 0; i < N; i++) {
+        sn[i] = Sign();
+        sn[i].in <== X[i];
+
+        sg[i] = Sigmoid(d);
+        sg[i].x <== sn[i].out;
+        sg[i].sign <== sn[i].sign;
+
+        S[i][0] <== sg[i].s[0];
+        S[i][1] <== sg[i].s[1];
+    }
+}
+
+component main = SigmoidVector(5, 4);
