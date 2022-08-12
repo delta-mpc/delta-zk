@@ -1,4 +1,4 @@
-pragma circom 2.0.0;
+pragma circom 2.0.6;
 
 include "../../node_modules/circomlib/circuits/comparators.circom";
 include "../../node_modules/circomlib/circuits/switcher.circom";
@@ -142,12 +142,12 @@ template Sigmoid(d) {
     sw3.sel <== gt3.out;
     sw3.L[0] <== sw2.outL[0];
     sw3.L[1] <== sw2.outL[1];
-    sw3.R[0] <== 1;
-    sw3.R[1] <== 0;
+    sw3.R[0] <== 10**(d + 5);
+    sw3.R[1] <== d + 5;
 
     // 处理负数
-    fs.l[0] <== 1000000000;
-    fs.l[1] <== 9;
+    fs.l[0] <== 10**(d + 5);
+    fs.l[1] <== d + 5;
     fs.r[0] <== -sw3.outL[0];
     fs.r[1] <== sw3.outL[1];
 
@@ -184,4 +184,5 @@ template SigmoidVector(N, d) {
     }
 }
 
-component main = SigmoidVector(5, 4);
+// component main = SigmoidVector(5, 4);
+// component main = Sigmoid(4);

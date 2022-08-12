@@ -1,5 +1,5 @@
 BASE=./circuits
-DIR ?= sigmoid
+DIR ?= gradient
 WORKDIR=$(BASE)/$(DIR)
 
 # compile
@@ -12,7 +12,7 @@ compile $(WORKDIR)/circuit.r1cs $(WORKDIR)/circuit.wasm:$(WORKDIR)/circuit.circo
 
 # plonk setup
 setup $(WORKDIR)/circuit_final.zkey:pot_final.ptau compile
-	snarkjs powersoftau verify pot_final.ptau
+	# snarkjs powersoftau verify pot_final.ptau
 	snarkjs plonk setup $(WORKDIR)/circuit.r1cs pot_final.ptau $(WORKDIR)/circuit_final.zkey
 
 # export vk
