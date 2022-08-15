@@ -1,7 +1,5 @@
 pragma circom 2.0.6;
 
-include "../../node_modules/circomlib/circuits/comparators.circom";
-include "../../node_modules/circomlib/circuits/switcher.circom";
 include "../sign/circuit.circom";
 
 // 浮点数乘法，输入无符号，输出无符号

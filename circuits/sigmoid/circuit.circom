@@ -1,9 +1,6 @@
 pragma circom 2.0.6;
 
-include "../../node_modules/circomlib/circuits/comparators.circom";
-include "../../node_modules/circomlib/circuits/switcher.circom";
 include "../float/circuit.circom";
-include "../sign/circuit.circom";
 
 template Sigmoid0_1(d) {
     signal input x;
