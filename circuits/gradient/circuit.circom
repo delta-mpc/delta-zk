@@ -63,4 +63,3 @@ template G(M, N, d) {
     }    
 }
 
-component main {public [W]}= G(10, 5, 4);

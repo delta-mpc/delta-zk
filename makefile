@@ -1,12 +1,12 @@
-BASE=./circuits
-DIR ?= gradient
+BASE=circuits
+DIR ?= main
 WORKDIR=$(BASE)/$(DIR)
 
 # compile
 compile $(WORKDIR)/circuit.r1cs $(WORKDIR)/circuit.wasm:$(WORKDIR)/circuit.circom
 	cd $(WORKDIR) && \
 	circom circuit.circom --r1cs --wasm --sym --inspect && \
-	snarkjs r1cs info circuit.r1cs && \
+	# snarkjs r1cs info circuit.r1cs && \
 	mv ./circuit_js/circuit.wasm ./circuit.wasm && \
 	rm -rf ./circuit_js
 
@@ -31,9 +31,9 @@ pkv:zkev pkf
 	snarkjs pkv verification_key.json public.json proof.json
 
 js:
-	cp proof.js $(WORKDIR) && \
+	cp snark/test.js $(WORKDIR) && \
 	cd $(WORKDIR) && \
-	node proof.js
+	node test.js
 
 clean:
 	cd $(WORKDIR) && \

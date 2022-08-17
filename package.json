@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "setup": "node snark/prove.js"
+  },
   "dependencies": {
     "circomlib": "^2.0.5",
     "snarkjs": "^0.4.24"

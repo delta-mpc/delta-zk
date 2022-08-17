@@ -15,6 +15,7 @@ gen
 *.sym
 *.wasm
 circuits/**/*.json
-circuits/**/proof.js
+circuits/**/test.js
+circuits/main
 
 node_modules
