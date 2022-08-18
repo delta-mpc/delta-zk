@@ -1,0 +1,15 @@
+.idea
+.vscode
+.git
+node_modules
+
+circuits/**/*.json
+circuits/**/test.js
+circuits/main
+
+*.ptau
+*.wtns
+*.zkey
+*.r1cs
+*.sym
+*.wasm

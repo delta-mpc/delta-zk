@@ -13,13 +13,9 @@ async function generate(N, M) {
     if (fs.existsSync(WORKDIR)) {
         return
     }
-    fs.mkdirSync(WORKDIR);
+    fs.mkdirSync(WORKDIR, { recursive: true });
 
-    const circuit = `
-    pragma circom 2.0.6;
-    include "../../gradient/circuit.circom";
-    
-    component main {public [W]}= G(${N}, ${M}, 4);`
+    const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main {public [W]}= G(${N}, ${M}, 4);`
 
     fs.writeFileSync(`${WORKDIR}/circuit.circom`, circuit)
 
@@ -34,7 +30,7 @@ async function generate(N, M) {
     return
 }
 
-export async function prove(input) {
+async function prove(input) {
     const N = input.X.length
     const M = input.X[0].length
 
@@ -44,3 +40,7 @@ export async function prove(input) {
 
     return { proof, publicSignals }
 }
+
+generate(10, 5).then(() => {
+    process.exit(0);
+})

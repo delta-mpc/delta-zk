@@ -1,0 +1,5 @@
+FROM node:16.16.0-buster-slim
+ADD https://github.com/iden3/circom/releases/latest/download/circom-linux-amd64 /usr/local/bin/circom
+RUN chmod +x /usr/local/bin/circom && apt-get update \
+    && apt-get install -y --no-install-recommends make \
+    && rm -rf /var/lib/apt/lists/*  

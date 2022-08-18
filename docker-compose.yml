@@ -1,0 +1,12 @@
+version: "3.2"
+
+services:
+  delta-zk:
+    build: .
+    container_name: delta-zk
+    image: "registry.cn-shanghai.aliyuncs.com/ybase/delta-zk:dev"
+    volumes:
+      - ./pot_final.ptau:/app/pot_final.ptau
+    command: ["yarn", "prove"]
+
+      
