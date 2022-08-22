@@ -6,8 +6,8 @@ let BASE = 'circuits'
 let DIR = 'main'
 let WORKDIR
 
-async function generate(N, M) {
-    DIR = `${DIR}/${N}_${M}`
+async function generate(N, M, d=4) {
+    DIR = `${DIR}/${N}_${M}_${d}`
     WORKDIR = `${BASE}/${DIR}`
 
     if (fs.existsSync(WORKDIR)) {
@@ -15,7 +15,7 @@ async function generate(N, M) {
     }
     fs.mkdirSync(WORKDIR, { recursive: true });
 
-    const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main {public [W]}= G(${N}, ${M}, 4);`
+    const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main {public [W]}= G(${N}, ${M}, ${d});`
 
     fs.writeFileSync(`${WORKDIR}/circuit.circom`, circuit)
 
@@ -30,17 +30,17 @@ async function generate(N, M) {
     return
 }
 
-async function prove(input) {
+async function prove(input, d=4) {
     const N = input.X.length
     const M = input.X[0].length
 
-    await generate(N, M)
+    await generate(N, M, d)
 
     const { proof, publicSignals } = await snarkjs.plonk.fullProve(input, `${WORKDIR}/circuit.wasm`, `${WORKDIR}/circuit_final.zkey`);
 
     return { proof, publicSignals }
 }
 
-generate(10, 5).then(() => {
-    process.exit(0);
-})
+module.exports = {
+    prove
+}

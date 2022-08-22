@@ -34,7 +34,7 @@ template G(M, N, d) {
         sgv.X[i] <== xw1.P[i][0];
     }
 
-    // // Y - sigmoid(XW)
+    // Y - sigmoid(XW)
     for (var i = 0; i < M; i++) {
         us[i] = UnSign();
         us[i].in <== Y[i][0];
@@ -62,4 +62,6 @@ template G(M, N, d) {
         G[i][1] <== xw2.P[i][1];
     }    
 }
+
+// component main {public [W]}= G(10, 5, 8);
 

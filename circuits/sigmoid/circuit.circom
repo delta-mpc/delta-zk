@@ -96,9 +96,9 @@ template Sigmoid(d) {
     signal input sign;
     signal output s[2];
 
-    component gt1 = GreaterThan(36);
-    component gt2 = GreaterThan(36);
-    component gt3 = GreaterThan(36);
+    component gt1 = GreaterThan(128);
+    component gt2 = GreaterThan(128);
+    component gt3 = GreaterThan(128);
     component isz = IsZero();
     component sw1 = Switcher2();
     component sw2 = Switcher2();

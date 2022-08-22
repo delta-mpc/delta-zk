@@ -1,5 +1,5 @@
 BASE=circuits
-DIR ?= main
+DIR ?= gradient
 WORKDIR=$(BASE)/$(DIR)
 
 # compile
