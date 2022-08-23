@@ -16,6 +16,7 @@ gen
 *.wasm
 circuits/**/*.json
 circuits/**/test.js
+circuits/**/*.sol
 circuits/main
 
 node_modules

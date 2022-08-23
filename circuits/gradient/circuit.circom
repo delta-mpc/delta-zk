@@ -9,12 +9,14 @@ template G(M, N, d) {
     signal input W[N][2];
     signal input Y[M][2];
     signal output G[N][2];
+    signal output hash;
 
     component xw1 = MatrixVectorMultiSign(M, N, d, d);
     component xw2 = MatrixVectorMultiSignX(N, M, d, d*2+5);
     component sgv = SigmoidVector(M, d+d);
     component va = VectorAdd(M, d*2+5);
     component us[M];
+    component H = VectorMiMC(N);
 
     // XW
     for (var i = 0; i < N; i++) {
@@ -61,7 +63,14 @@ template G(M, N, d) {
         G[i][0] <== xw2.P[i][0];
         G[i][1] <== xw2.P[i][1];
     }    
+
+    // hash(W)
+    for (var i = 0; i < N; i++) {
+        H.in[i] <== W[i][0];
+    }
+
+    hash <== H.out;
 }
 
-// component main {public [W]}= G(10, 5, 8);
+component main = G(10, 5, 8);
 

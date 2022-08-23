@@ -15,7 +15,7 @@ async function generate(N, M, d=4) {
     }
     fs.mkdirSync(WORKDIR, { recursive: true });
 
-    const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main {public [W]}= G(${N}, ${M}, ${d});`
+    const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main = G(${N}, ${M}, ${d});`
 
     fs.writeFileSync(`${WORKDIR}/circuit.circom`, circuit)
 

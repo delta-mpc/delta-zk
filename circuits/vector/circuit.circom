@@ -1,5 +1,6 @@
 pragma circom 2.0.6;
 
+include "../../node_modules/circomlib/circuits/mimc.circom";
 include "../float/circuit.circom";
 
 // 向量加法，输入无符号，输出无符号
@@ -195,5 +196,21 @@ template InnerProductSignL(N, dL, dR) {
     p[1] === dL + dR;
 }
 
+
+// 向量的mimc
+template VectorMiMC(N) {
+    signal input in[N];
+    signal output out;
+
+    component H = MultiMiMC7(N, 91);
+
+    for (var i = 0; i < N; i++) {
+       H.in[i] <== in[i];
+    }
+
+    H.k <== 0;
+    out <== H.out;
+}
+
 // component main = MatrixVectorMultiSign(5, 5, 4, 4);
-// component main = InnerProductSign(10, 4);
+// component main = VectorMiMC(10);
