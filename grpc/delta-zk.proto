@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package delta;
+
+service ZKP {
+  rpc prove(stream Input) returns (stream Proof) {}
+}
+
+message Input {
+  repeated double weights = 1;
+  repeated Sample xy = 2;
+}
+
+message Sample { repeated double x = 1; }
+
+message Proof {
+  repeated string publicSignals = 1;
+  string proof = 2;
+  string error = 3;
+}

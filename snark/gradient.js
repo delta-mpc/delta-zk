@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { prove } = require('./prove.js');
+const { prove, circomInput } = require('./prove.js');
 
 function sigmoid(x) {
     if (x > 0) {
@@ -71,18 +71,6 @@ function gradient(X, W, Y) {
     const Xt = MatrixTranspose(X)
     const res = MatrixVectorMulti(Xt, y);
     return res
-}
-
-function circomInput(X, W, Y, d) {
-    let fac = 10 ** d;
-    let fac2 = 10 ** (d * 2 + 5);
-    for (let i = 0; i < X.length; i++) {
-        X[i] = X[i].map(x => [Math.floor(Math.abs(x) * fac), sign(x)]);
-    }
-    W = W.map(x => [Math.floor(Math.abs(x) * fac), sign(x)]);
-    Y = Y.map(y => [Math.floor(Math.abs(y) * fac2), sign(y)]);
-
-    return { X, W, Y }
 }
 
 function sign(x) {

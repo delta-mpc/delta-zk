@@ -4,9 +4,12 @@
   "license": "Apache-2.0",
   "scripts": {
     "prove": "node snark/prove.js",
-    "test": "node snark/gradient.js"
+    "test": "node snark/gradient.js",
+    "server": "node grpc/server.js"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.6.10",
+    "@grpc/proto-loader": "^0.7.2",
     "circomlib": "^2.0.5",
     "snarkjs": "^0.4.24"
   }
