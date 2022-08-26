@@ -72,5 +72,5 @@ template G(M, N, d) {
     hash <== H.out;
 }
 
-component main = G(10, 5, 8);
+// component main = G(10, 5, 8);
 

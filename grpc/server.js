@@ -23,7 +23,7 @@ function main() {
     );
 
     server.bindAsync('0.0.0.0:4500', grpc.ServerCredentials.createInsecure(), ()=> {
-        console.log('RPC服务已运行在4500端口')
+        console.log('delta-zk rpc服务已运行在4500端口')
         server.start();
     });
 }
