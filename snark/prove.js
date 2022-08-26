@@ -42,6 +42,14 @@ async function prove(input, d = 4) {
     return { proof: JSON.stringify(proof), publicSignals }
 }
 
+function sign(x) {
+    if (x >= 0) {
+        return 0
+    } else {
+        return 1
+    }
+}
+
 
 function circomInput(X, W, Y, d) {
     let fac = 10 ** d;

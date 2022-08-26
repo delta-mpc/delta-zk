@@ -73,14 +73,6 @@ function gradient(X, W, Y) {
     return res
 }
 
-function sign(x) {
-    if (x >= 0) {
-        return 0
-    } else {
-        return 1
-    }
-}
-
 X = [
     [2.66, 20.0, 0.0],
     [2.89, 22.0, 0.0],
