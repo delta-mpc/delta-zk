@@ -12,7 +12,7 @@ function proveAll(call, input) {
 
     const msg = `[${start.toLocaleString()}] input size ${X.length} * ${X[0].length}`
 
-    prove(circomInput(X, W, Y, 8), 8).then(res => {
+    prove(circomInput(X, W, Y)).then(res => {
         call.write(res)
         call.end()
         msg += `---${new Date().getTime() - start.getTime()}ms`

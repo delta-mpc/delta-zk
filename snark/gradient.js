@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { prove, circomInput } = require('./prove.js');
+const { prove, circomInput, padding } = require('./prove.js');
 
 function sigmoid(x) {
     if (x > 0) {
@@ -113,11 +113,12 @@ Y = [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 
 W = [0.29933592, -0.10147248, 1.63635739]
 // W = [0.2993, -0.1014, 1.6363]
 
+padding(X, Y)
+
 console.log('true gradient: ', gradient(X, W, Y))
 
-let input = circomInput(X, W, Y, 8)
-
-prove(input, 8).then((proof) => {
+let input = circomInput(X, W, Y)
+prove(input).then((proof) => {
     console.log('proof: ', proof.publicSignals)
     process.exit(0)
 })

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "scripts": {
-    "prove": "node snark/prove.js",
+    "setup": "node snark/setup.js",
     "test": "node snark/gradient.js",
     "server": "node grpc/server.js"
   },
