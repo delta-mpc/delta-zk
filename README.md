@@ -12,30 +12,30 @@ The zero knowledge proof system used in Delta.
 
 ## Setup
 
-```yarn setup ${input_size}```
+``yarn setup ${input_size}``
 
-All key files will be generated under directory ```circuits/main/${input_size}```
+All key files will be generated under directory ``circuits/main/${input_size}``
 
 ## Build
 
 ### build with docker
 
-```docker compose build```
+``docker compose build``
 or
-```docker build -t deltampc/delta-zk:dev .```
+``docker build -t deltampc/delta-zk:dev .``
 
 ### build with yarn
 
-```yarn install```
+``yarn install``
 
-## Run gRPC server
+## Run gRPC
 
 ### run with docker
 
-```docker compose up -d```
+``docker compose up -d``
 or
-```docker run --name delta-zk -p 4500:4500 -d deltampc/delta-zk:dev```
+``docker run --name delta-zk -p 4500:4500 -d deltampc/delta-zk:dev``
 
 ### run with yarn
 
-```yarn server```
+``yarn server``
