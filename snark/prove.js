@@ -3,8 +3,6 @@ const fs = require('fs');
 const snarkjs = require("snarkjs")
 const path = require("path")
 
-let BASE = 'circuits'
-let DIR = 'main'
 let WORKDIR
 
 async function templates() {
@@ -24,8 +22,8 @@ async function templates() {
 }
 
 async function setup(N) {
-    DIR = `${DIR}/${N}`
-    WORKDIR = `${BASE}/${DIR}`
+    let DIR = `main/${N}`
+    WORKDIR = `circuits/${DIR}`
 
     if (fs.existsSync(WORKDIR)) {
         console.log('setup has been done')
@@ -34,6 +32,8 @@ async function setup(N) {
     fs.mkdirSync(WORKDIR, { recursive: true });
 
     const circuit = `pragma circom 2.0.6;\ninclude "../../gradient/circuit.circom";\ncomponent main = G128(${N}, 8);`
+
+    console.log(`saving circuits file: ${WORKDIR}/circuit.circom`)
 
     fs.writeFileSync(`${WORKDIR}/circuit.circom`, circuit)
 

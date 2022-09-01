@@ -5,9 +5,11 @@ services:
     build: .
     container_name: delta-zk
     image: "deltampc/delta-zk:dev"
+    ports:
+      - "4500:4500"
     volumes:
       - ./ptau:/app/ptau
       - ./circuits/main:/app/circuits/main
-    command: ["yarn", "test"]
+    command: ["yarn", "server"]
 
       
