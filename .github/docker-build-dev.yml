@@ -1,0 +1,31 @@
+name: build docker image dev
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - v*
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: deltampc/delta-zk:dev

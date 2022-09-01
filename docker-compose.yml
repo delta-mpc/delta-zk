@@ -7,9 +7,4 @@ services:
     image: "deltampc/delta-zk:dev"
     ports:
       - "4500:4500"
-    volumes:
-      - ./ptau:/app/ptau
-      - ./circuits/main:/app/circuits/main
     command: ["yarn", "server"]
-
-      

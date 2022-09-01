@@ -4,7 +4,6 @@
   "license": "Apache-2.0",
   "scripts": {
     "setup": "node snark/setup.js",
-    "test": "node snark/gradient.js",
     "server": "node grpc/server.js",
     "client": "node grpc/client.js"
   },
