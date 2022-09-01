@@ -1,7 +1,7 @@
 const PROTO_PATH = __dirname + '/delta-zk.proto';
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const { prove } = require('./service.js')
+const { proveAll } = require('./service.js')
 const packageDefinition = protoLoader.loadSync(
     PROTO_PATH,
     {
@@ -18,7 +18,7 @@ function main() {
     let server = new grpc.Server();
     server.addService(delta_proto.ZKP.service,
         {
-            prove: prove
+            prove: proveAll
         }
     );
 

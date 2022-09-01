@@ -18,5 +18,6 @@ circuits/**/*.json
 circuits/**/test.js
 circuits/**/*.sol
 circuits/main
+ptau
 
 node_modules

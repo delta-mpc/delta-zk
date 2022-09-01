@@ -6,7 +6,8 @@ services:
     container_name: delta-zk
     image: "deltampc/delta-zk:dev"
     volumes:
-      - ./pot_final.ptau:/app/pot_final.ptau
-    command: ["yarn", "prove"]
+      - ./ptau:/app/ptau
+      - ./circuits/main:/app/circuits/main
+    command: ["yarn", "test"]
 
       

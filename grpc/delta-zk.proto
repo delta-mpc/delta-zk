@@ -3,7 +3,7 @@ syntax = "proto3";
 package delta;
 
 service ZKP {
-  rpc prove(stream Input) returns (stream Proof) {}
+  rpc prove(Input) returns (stream Proof) {}
 }
 
 message Input {
@@ -11,10 +11,11 @@ message Input {
   repeated Sample xy = 2;
 }
 
-message Sample { repeated double x = 1; }
+message Sample { repeated double d = 1; }
 
 message Proof {
   repeated string publicSignals = 1;
   string proof = 2;
-  string error = 3;
+  int32 index = 3;
+  string error = 4;
 }

@@ -6,6 +6,7 @@ node_modules
 circuits/**/*.json
 circuits/**/test.js
 circuits/main
+ptau
 
 *.ptau
 *.wtns

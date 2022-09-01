@@ -43,7 +43,7 @@ async function setup(N) {
 
     console.log('plonk setup...')
 
-    await snarkjs.plonk.setup(`${WORKDIR}/circuit.r1cs`, 'pot_final.ptau', `${WORKDIR}/circuit_final.zkey`)
+    await snarkjs.plonk.setup(`${WORKDIR}/circuit.r1cs`, './ptau/pot_final.ptau', `${WORKDIR}/circuit_final.zkey`)
 
     console.log('export verification key...')
 
@@ -64,6 +64,8 @@ async function prove(input) {
     const N = input.W.length
 
     await setup(N)
+
+    console.log('plonk full prove...')
 
     const { proof, publicSignals } = await snarkjs.plonk.fullProve(input, `${WORKDIR}/circuit.wasm`, `${WORKDIR}/circuit_final.zkey`);
 
@@ -90,20 +92,17 @@ function padding(X, Y) {
 
 function circomInput(X, W, Y, d = 8) {
     if (X.length != Y.length) {
-        console.log('inconsisitent size of input X and Y')
-        process.exit(1)
+        throw 'inconsisitent size of input X and Y'
     }
     if (X[0].length != W.length) {
-        console.log('inconsisitent size of input X and W')
-        process.exit(1)
+        throw 'inconsisitent size of input X and W'
     }
 
     let fac = 10 ** d
     let fac2 = 10 ** (d * 2 + 5);
     for (let i = 0; i < X.length; i++) {
         if (X[i].length != W.length) {
-            console.log('inconsisitent size of input X and W')
-            process.exit(1)
+            throw 'inconsisitent size of input X and W'
         }
         X[i] = X[i].map(x => [Math.floor(Math.abs(x) * fac), sign(x)]);
     }

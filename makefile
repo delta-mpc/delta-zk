@@ -11,9 +11,9 @@ compile $(WORKDIR)/circuit.r1cs $(WORKDIR)/circuit.wasm:$(WORKDIR)/circuit.circo
 	rm -rf ./circuit_js
 
 # plonk setup
-setup $(WORKDIR)/circuit_final.zkey:pot_final.ptau compile
+setup $(WORKDIR)/circuit_final.zkey:./ptau/pot_final.ptau compile
 	# snarkjs powersoftau verify pot_final.ptau
-	snarkjs plonk setup $(WORKDIR)/circuit.r1cs pot_final.ptau $(WORKDIR)/circuit_final.zkey
+	snarkjs plonk setup $(WORKDIR)/circuit.r1cs ./ptau/pot_final.ptau $(WORKDIR)/circuit_final.zkey
 
 # export vk
 zkev $(WORKDIR)/verification_key.json:setup
