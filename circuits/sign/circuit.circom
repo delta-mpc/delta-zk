@@ -27,12 +27,6 @@ template UnSign() {
     signal input in;
     signal input sign;
     signal output out;
-    component isz = IsZero();
-    component sw = Switcher();
 
-    isz.in <== sign;
-    sw.sel <== isz.out;
-    sw.L <== -in;
-    sw.R <== in;
-    out <== sw.outL;
+    out <== (1-2*sign) * in;
 }

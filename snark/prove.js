@@ -69,7 +69,9 @@ async function prove(input) {
 
     const { proof, publicSignals } = await snarkjs.plonk.fullProve(input, `${WORKDIR}/circuit.wasm`, `${WORKDIR}/circuit_final.zkey`);
 
-    return { proof: JSON.stringify(proof), publicSignals }
+    const calldata = await snarkjs.plonk.exportSolidityCallData(proof, publicSignals)
+
+    return { proof: JSON.stringify(proof), publicSignals, calldata }
 }
 
 function sign(x) {

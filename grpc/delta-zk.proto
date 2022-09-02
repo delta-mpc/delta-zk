@@ -14,8 +14,9 @@ message Input {
 message Sample { repeated double d = 1; }
 
 message Proof {
-  repeated string publicSignals = 1;
-  string proof = 2;
-  int32 index = 3;
-  string error = 4;
+  int32 index = 1;
+  repeated string publicSignals = 2;
+  string proof = 3;
+  string calldata = 4;
+  string error = 5;
 }

@@ -75,7 +75,7 @@ template G128(N, d) {
 
     component gradient = Gradient(128, N, d);
     component H = VectorHash(N);
-    component MR = MerkleMatrix128(N);
+    component MR = MerkleMatrix128(N+1);
 
     for (var i = 0; i < 128; i++) {
         gradient.Y[i][0] <== Y[i][0];
@@ -105,12 +105,14 @@ template G128(N, d) {
 
     hash <== H.out;
 
-    // MerkeRoot(X)
+    // MerkeRoot(X|Y)
     for (var i = 0; i < 128; i++) {
         for (var j = 0; j < N; j++) {
             MR.X[i][j][0] <== X[i][j][0];
             MR.X[i][j][1] <== X[i][j][1];
         }
+        MR.X[i][N][0] <== Y[i][0];
+        MR.X[i][N][1] <== Y[i][1];
     }
 
     root <== MR.out;
