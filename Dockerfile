@@ -6,3 +6,4 @@ COPY . .
 RUN chmod +x /usr/local/bin/circom && apt-get update \
     && apt-get install -y --no-install-recommends make \
     && rm -rf /var/lib/apt/lists/* && yarn
+CMD ["yarn", "server"]

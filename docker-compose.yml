@@ -7,4 +7,3 @@ services:
     image: "deltampc/delta-zk:dev"
     ports:
       - "4500:4500"
-    command: ["yarn", "server"]
