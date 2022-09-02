@@ -39,5 +39,5 @@ clean:
 	cd $(WORKDIR) && \
 	rm -f circuit.r1cs circuit.sym circuit.wasm circuit_final.zkey verification_key.json proof.json public.json
 
-docker:
-	docker build -t deltampc/delta-zk:dev .
+docker-setup:
+	docker run --rm -it --name delta-zk-setup -v ${PWD}/circuits/main:/app/circuits/main deltampc/delta-zk:dev yarn setup 3
