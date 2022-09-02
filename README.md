@@ -14,7 +14,7 @@ The zero knowledge proof system used in Delta.
     ```
 
 5. [circom (v2.0.6)](https://github.com/iden3/circom/releases/tag/v2.0.6)
-    
+
     ```shell
     wget https://github.com/iden3/circom/releases/download/v2.0.6/circom-linux-amd64 /usr/local/bin/circom
     ```
@@ -25,7 +25,9 @@ The zero knowledge proof system used in Delta.
 
 ## Setup
 
-> All key files will be generated under directory ``circuits/main/${input_size}``
+> The user should provide the value of ``${input_size}``, which is the feature dimension of the dataset
+>
+> All of the setup files will be generated under directory ``circuits/main/${input_size}``
 
 ## setup with docker
 
@@ -35,33 +37,28 @@ docker run --rm -it --name delta-zk-setup -v ${PWD}/circuits/main:/app/circuits/
 
 ## setup with yarn
 
+download snarkjs Ptau file
+
 ```shell
-# download snarkjs Ptau file
 wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_20.ptau ./ptau/pot_final.ptau
 ```
 
 ```shell
-yarn setup ${input_size}
+yarn install && yarn setup ${input_size}
 ```
 
-## Build
+## Docker image
 
-### build with docker
-
-```shell
-docker compose build
-```
-
-or
+### build
 
 ```shell
 docker build -t deltampc/delta-zk:dev .
 ```
 
-### build with yarn
+### docker hub
 
 ```shell
-yarn install
+docker pull deltampc/delta-zk:dev
 ```
 
 ## Run gRPC service
@@ -69,13 +66,13 @@ yarn install
 ### run with docker
 
 ```shell
-docker compose up -d
+docker run --name delta-zk -p 4500:4500 -d deltampc/delta-zk:dev
 ```
 
 or
 
 ```shell
-docker run --name delta-zk -p 4500:4500 -d deltampc/delta-zk:dev
+docker compose up -d
 ```
 
 ### run with yarn
