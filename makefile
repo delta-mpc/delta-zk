@@ -41,3 +41,6 @@ clean:
 
 docker-setup:
 	docker run --rm -it --name delta-zk-setup -v ${PWD}/circuits/main:/app/circuits/main deltampc/delta-zk:dev yarn setup 3
+
+docker-run:
+	docker run --name delta-zk -v ${PWD}/circuits/main:/app/circuits/main -p 4500:4500 -d deltampc/delta-zk:dev
