@@ -66,7 +66,7 @@ docker pull deltampc/delta-zk:dev
 ### run with docker
 
 ```shell
-docker run --name delta-zk -p 4500:4500 -d deltampc/delta-zk:dev
+docker run --name delta-zk -v ${PWD}/circuits/main:/app/circuits/main -p 4500:4500 -d deltampc/delta-zk:dev
 ```
 
 or
